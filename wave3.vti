@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<VTKFile type="ImageData" version="0.1" byte_order="LittleEndian" compressor="vtkZLibDataCompressor">
+  <RD format_version="4">
+    <description>
+      The &lt;a href=&quot;http://en.wikipedia.org/wiki/Schr%C3%B6dinger_equation&quot;&gt;Schrödinger equation&lt;/a&gt; describes the change in the 
+      wave function for some quantum state. For a travelling particle, the magnitude of the wave packet describes the probability that the particle 
+      will be found at each location.
+      
+      Here a wave packet travels through empty space. Over time the probability spreads out, because of uncertainty in its initial momentum.
+      
+      In our implementation, &apos;a&apos; represents the real part of the complex number and &apos;b&apos; the imaginary part. 
+      The magnitude is shown in &apos;c&apos; but doesn&apos;t affect the system.
+      
+      Derivation:
+      
+      &lt;tt&gt;
+      i*(dx/dt) = -Laplacian(x)
+      &lt;/tt&gt;
+      
+      where x is a complex number a+bi, i is the square root of -1.
+      
+      hence:
+      &lt;tt&gt;&lt;pre&gt;da/dt = -Im(Laplacian(x)) = -Laplacian(b)
+      db/dt =  Re(Laplacian(x)) =  Laplacian(a)&lt;/pre&gt;&lt;/tt&gt;
+      
+    </description>
+    <rule name="Schrodinger equation" type="formula" wrap="0" neighborhood_type="vertex" neighborhood_range="1" neighborhood_weight="laplacian">
+      <param name="timestep">
+        0.001
+      </param>
+      <param name="mass">
+        0.2
+      </param>
+      <formula number_of_chemicals="3">
+        delta_a = b;
+        delta_b =  laplacian_a+pow(mass,2)*sin(a);
+        c = hypot( a, b );
+        
+      </formula>
+    </rule>
+    <initial_pattern_generator apply_when_loading="false">
+      <overlay chemical="c">
+        <overwrite>
+        </overwrite>
+        <gaussian height="1" sigma="0.03">
+          <point3D x="0.2" y="0.3" z="0.5">
+          </point3D>
+        </gaussian>
+        <everywhere>
+        </everywhere>
+      </overlay>
+      <overlay chemical="a">
+        <overwrite>
+        </overwrite>
+        <sine phase="0" amplitude="1">
+          <point3D x="0" y="0" z="0">
+          </point3D>
+          <point3D x="0.03" y="0" z="0">
+          </point3D>
+        </sine>
+        <everywhere>
+        </everywhere>
+      </overlay>
+      <overlay chemical="a">
+        <multiply>
+        </multiply>
+        <other_chemical chemical="c">
+        </other_chemical>
+        <everywhere>
+        </everywhere>
+      </overlay>
+      <overlay chemical="b">
+        <overwrite>
+        </overwrite>
+        <sine phase="1.5708" amplitude="1">
+          <point3D x="0" y="0" z="0">
+          </point3D>
+          <point3D x="0.03" y="0" z="0">
+          </point3D>
+        </sine>
+        <everywhere>
+        </everywhere>
+      </overlay>
+      <overlay chemical="b">
+        <multiply>
+        </multiply>
+        <other_chemical chemical="c">
+        </other_chemical>
+        <everywhere>
+        </everywhere>
+      </overlay>
+    </initial_pattern_generator>
+    <render_settings>
+      <surface_color r="1" g="1" b="1">
+      </surface_color>
+      <color_low r="0" g="0" b="1">
+      </color_low>
+      <color_high r="1" g="0" b="0">
+      </color_high>
+      <show_color_scale value="true">
+      </show_color_scale>
+      <show_multiple_chemicals value="true">
+      </show_multiple_chemicals>
+      <active_chemical value="c">
+      </active_chemical>
+      <low value="-1">
+      </low>
+      <high value="1">
+      </high>
+      <vertical_scale_1D value="100">
+      </vertical_scale_1D>
+      <vertical_scale_2D value="100">
+      </vertical_scale_2D>
+      <contour_level value="0.25">
+      </contour_level>
+      <use_wireframe value="false">
+      </use_wireframe>
+      <show_cell_edges value="false">
+      </show_cell_edges>
+      <show_bounding_box value="true">
+      </show_bounding_box>
+      <slice_3D value="true">
+      </slice_3D>
+      <slice_3D_axis value="z">
+      </slice_3D_axis>
+      <slice_3D_position value="0.5">
+      </slice_3D_position>
+      <show_displacement_mapped_surface value="true">
+      </show_displacement_mapped_surface>
+      <color_displacement_mapped_surface value="false">
+      </color_displacement_mapped_surface>
+      <use_image_interpolation value="true">
+      </use_image_interpolation>
+      <timesteps_per_render value="1024">
+      </timesteps_per_render>
+      <show_phase_plot value="false">
+      </show_phase_plot>
+      <phase_plot_x_axis value="a">
+      </phase_plot_x_axis>
+      <phase_plot_y_axis value="b">
+      </phase_plot_y_axis>
+      <phase_plot_z_axis value="c">
+      </phase_plot_z_axis>
+    </render_settings>
+  </RD>
+  <ImageData WholeExtent="0 511 0 0 0 0" Origin="0 0 0" Spacing="1 1 1">
+  <Piece Extent="0 511 0 0 0 0">
+    <PointData>
+      <DataArray type="Float32" Name="a" format="binary" RangeMin="-0.10000000149" RangeMax="0.10000000149">
+        AQAAAACAAAAACAAAPQIAAA==eJxjYGBg2BYupr+l97L+lJQAg83vlhu0b3hkIHbys0FewTwDZfPEDe9El24UrnHcdGPv6k1fgv5uqimU3jy/SXDzvL1Zmx7OETXm9WE0uZnfbOL047LJHnF+U818OdOy9T9MzILvGpUwJ23Nny28zUCrddteriPbrp//uK10+rttxhcmblPcKW22ki3NvLbih/nUHZ4W1ffbLQ5XzrDYmdJswc1ywfxTmvcOiWC1nc7Ws3fGn3yyU0GQd1f7X75dF++e33nmm+KOF1ICVjWf11ltmCJgbZjnZD1DIdqa39/Net78ZvHBhM+eOWNLI7yXUjzQYTOKycdr600XbfJ1XqTCx7/Ir3nVQv8QrYWxCzoWPLvSNb+fy0nOq41JPqT+mdzyHdPlNhWryp0pmya7svKyTK/LBOn7zx1mHz3dMnvWSc/Z619/mOXfXDDr/omjM2+ceD0jV/HatLPnDovPlz8CtsclkF/86ZkmsUcZB0Tlf24TYRO0mHx7J9OUG7xXJ3f5Nky+NvH/pC9VIZMSAjsnWp03mfBEfDe/2sGv/Lv7VvNvt7Dm/7FlFd+ECga+7km8vAI1Ytwsipu737su79Y74tu9au2ZrtiVWl0cSmmdr1J9Ojry+tjOOMaxF7mrs9tG7WAr2qjOxv60jrUuezpLnLk9c63bzKYo8YNNB86VN90x/d544q5v49vDvQ3AYgyG8YEGApgQoJVeQvop0UtIPyV6B7PdlOglpJ8SvYT0U6KXkH4MAACHLo/P
+      </DataArray>
+      <DataArray type="Float32" Name="b" format="binary" RangeMin="-0.10000000149" RangeMax="0.10000000149">
+        AQAAAACAAAAACAAAJAMAAA==eJw7n1m63iVt7foclWPr7RSnrl8quUHv5YMMg71tIob3t3QZHr961fDrNk6j6GVcRlXxUwy39J7cuEbr+qYD/zM3nzt/dLPFdO4tD14qbels4tlyg4d78wYvJ5PuGfymbOadprmhl019MznMjtziM2OtPmHaJDpry7G6vG1Gs3m2e4QXbLcyWbk9x/T49kr3HdtdVWy2Lzjuan72kLfFsxOnLd7UylpuYPS2dDkUYRnUqWOp62ZiMW9+s/hQxGfPnLGlEd5LKR7osCEHf17Oa/ZUUdxcjMHSvCVK3Tw54ZfZwYg5ZrOPi5t5SIuZOvq/3MKsl7b1Y3zhVo0brluta9m3TtOeuYW39+/me/lem/7+MDE+dLvWuKQ7y/izlb6xUNVto++ecUYTPacY6plKb9j3ynSj0Rrfjc52Whtj57/Y4HKyZYPbnzfr/Y4/WJcR1K43jYtBv/P6N72Kzzv0emLS9XYGv9eV+WKmu7Figbb7Prc1ewya1uxsj1kj3Sa2ZrP1mtUS9+RX/7vltkq+ol1D5sZOzSTLQ5o3FSZrds4117w+a79GtqSshqMmn/ql0pZla158XKZdcG1Z8+NJy6ZeVF8memne0mTJB0vSO/wXM//foVx/6ZHyS7UNym2bo5VZlz5VWunrrGSmkKR4Za7R/Fa5hQu+nJq9IJ47YsFNp2/zGe9lzX99d8O8RpYZc/Xab8lIsTvJVtjLySZaHJMpveIn85R3s7Qc40upuF2xkkdfTZx54dzymZIC+TObzTlm7uZvmiG67NT06yK3pmWIioko878VXe91RXTOwTbRZB8e0W8TS0TKxVcK32/uFNq1ePrETwosk/amH5uo4JA8cU//jQlVldoTjiz37X+if7T3wN9DvO/vXuJ1Pd/Ju7aBn7cooIonb8Ym7t/pm7i4jO4zsP2Y3Pl3a2ln1wW+TqYL7R3skTfanTw42z2mXGq9MncDi+ZxCdZ+v8ss58NiWRYtPsBcV8fNvFdCiqlu3SQGIGgggPEBSvQS0k+JXkL6KdFLSD8legnpp0QvIf2U6CWknxK9hPRTopdiuwGmtYy3
+      </DataArray>
+      <DataArray type="Float32" Name="c" format="binary" RangeMin="0" RangeMax="0.0029683622997">
+        AQAAAACAAAAACAAA8AAAAA==eJw7n1mq//PvHn2rtwIGe0JiDT56rTCYcOOfAYuKg2GcwwRDuXXXDWf3KRj1cOQZzdi83mi3CqPxCS5b4/XHOo3f/TxufLJZwKT/j7/JE46pJnHrrpjslhE3DbkcajplyTTTNTGXTWuXCZspZvmanfXoM3N2P2L28RybuUuqhfkL9WrzZ4GrzBexPTPvWiNlcVTR32KWVJdFS+J2iysVnyz2z5e3tHIPtHw8u8Oyd/pGy8NPnlqWaYtYfdG3s8oSK7ZatHGWVRXvESvu7O9WN0qlrW93OFnPm98sPopH8SgexUMJM4yCUTBAAACu9oQl
+      </DataArray>
+    </PointData>
+    <CellData>
+    </CellData>
+  </Piece>
+  </ImageData>
+</VTKFile>

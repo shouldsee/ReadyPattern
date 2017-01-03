@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<VTKFile type="ImageData" version="0.1" byte_order="LittleEndian" compressor="vtkZLibDataCompressor">
+  <RD format_version="4">
+    <description>
+      A map of the parameters of the Gray-Scott system. Here &apos;k&apos; increases from left to 
+      right and &apos;F&apos; increases from bottom to top. For more detail, see:
+      &lt;a href=&quot;http://mrob.com/pub/comp/xmorphia/index.html&quot;&gt;http://mrob.com/pub/comp/xmorphia/index.html&lt;/a&gt;
+      
+      The parameters k1, k2, F1 and F2 define the current range of the map. Change them to explore.
+      
+    </description>
+    <rule name="Gray-Scott" type="formula" wrap="0" neighborhood_type="vertex" neighborhood_range="1" neighborhood_weight="laplacian">
+      <param name="timestep">
+        0.2
+      </param>
+      <param name="diff">
+        0.07
+      </param>
+      <param name="k1">
+        0.03
+      </param>
+      <param name="k2">
+        0.17
+      </param>
+      <param name="F1">
+        -1
+      </param>
+      <param name="F2">
+        4
+      </param>
+      <param name="vis">
+        80
+      </param>
+      <param name="asp">
+        20
+      </param>
+      <param name="dx">
+        0.6
+      </param>
+      <param name="F0">
+        0.03
+      </param>
+      <formula number_of_chemicals="5">
+        float4 hpos = index_x / (float)X; // [0,1]
+        //float4 vpos = index_y / (float)Y; // [0,1]
+        //float4 hpos=0.7f;
+        float4 vpos=0.95f;
+        
+        float4 k = k1 + (k2-k1)*hpos;
+        float4 F = F1 + (F2-F1)*vpos;
+        delta_a = (2.0f * diff * laplacian_a/dx/dx - F*a*b*b + F0*(1.0f-a))*dx;
+        delta_b = (diff * laplacian_b/dx/dx + F*a*b*b - (F0+k)*b)*dx;
+        c=(2.0f * diff * laplacian_a/dx/dx)*vis;
+        d=F*a*b*b*vis;
+        e=F0*(1.0f-a)*vis;
+        
+      </formula>
+    </rule>
+    <initial_pattern_generator apply_when_loading="false">
+      <overlay chemical="a">
+        <overwrite>
+        </overwrite>
+        <constant value="1">
+        </constant>
+        <everywhere>
+        </everywhere>
+      </overlay>
+      <overlay chemical="b">
+        <overwrite>
+        </overwrite>
+        <white_noise low="0" high="1">
+        </white_noise>
+        <rectangle>
+          <point3D x="0.2" y="0.2" z="0.6">
+          </point3D>
+          <point3D x="0.4" y="0.5" z="0.8">
+          </point3D>
+        </rectangle>
+      </overlay>
+    </initial_pattern_generator>
+    <render_settings>
+      <surface_color r="1" g="1" b="1">
+      </surface_color>
+      <color_low r="0" g="0" b="1">
+      </color_low>
+      <color_high r="1" g="0" b="0">
+      </color_high>
+      <show_color_scale value="true">
+      </show_color_scale>
+      <show_multiple_chemicals value="true">
+      </show_multiple_chemicals>
+      <active_chemical value="b">
+      </active_chemical>
+      <low value="-1">
+      </low>
+      <high value="1">
+      </high>
+      <vertical_scale_1D value="30">
+      </vertical_scale_1D>
+      <vertical_scale_2D value="15">
+      </vertical_scale_2D>
+      <contour_level value="0.25">
+      </contour_level>
+      <use_wireframe value="false">
+      </use_wireframe>
+      <show_cell_edges value="false">
+      </show_cell_edges>
+      <show_bounding_box value="true">
+      </show_bounding_box>
+      <slice_3D value="true">
+      </slice_3D>
+      <slice_3D_axis value="z">
+      </slice_3D_axis>
+      <slice_3D_position value="0.5">
+      </slice_3D_position>
+      <show_displacement_mapped_surface value="false">
+      </show_displacement_mapped_surface>
+      <color_displacement_mapped_surface value="true">
+      </color_displacement_mapped_surface>
+      <use_image_interpolation value="true">
+      </use_image_interpolation>
+      <timesteps_per_render value="12">
+      </timesteps_per_render>
+      <show_phase_plot value="true">
+      </show_phase_plot>
+      <phase_plot_x_axis value="a">
+      </phase_plot_x_axis>
+      <phase_plot_y_axis value="b">
+      </phase_plot_y_axis>
+      <phase_plot_z_axis value="c">
+      </phase_plot_z_axis>
+    </render_settings>
+  </RD>
+  <ImageData WholeExtent="0 255 0 0 0 0" Origin="0 0 0" Spacing="1 1 1">
+  <Piece Extent="0 255 0 0 0 0">
+    <PointData>
+      <DataArray type="Float32" Name="a" format="binary" RangeMin="0.03369415924" RangeMax="1">
+        AQAAAACAAAAABAAA7QIAAA==eJzlxflTzH0AB/DatIiazEpItV1SYlkWjd7vz9OISpGrcbTTGHI1asI2SPpGPeORJB2mKcNIbpURk2PL1uYcJuNctTI5Wpl4Hs8zcqxi/4/nh9e8ciQnvJE5Icf2bvlQVB10gcnkivcDFMg94Ib1DSNhXu+BVU89se+gEgN7/BB6dSxk4UFwHx2Ca6UqHMhSI89LA41iBgprZ2LFJSI6JRyZWRHYERaFJYkx0E6ej6krF8L4RzxqspfhVmoC3PWJsN5YhU6vtXAM2oCW0o0wNKRBF6ZDxuqt2PRPBtSQEJG6C+dcc3DZkotO5R4k2O9FYF0exlXkI9lSAKupEOnlRbhfXIL8/w7B0FuGPXfK0fT4MLZEHoVRewxx4jjeaE/A+d0pqJzPYrH9eYxW1yCp9QI+OdUhdNhlnIivx7ZB19CxVA9jWiO0dw2IKjJidu9NVPvewbrCe1id9gCyD60wBz/C7pon8Dv5HBZNGxr2mfEi4BWaNa+RZ36L9CgLIn50o9bvI668/huta/6FZtIXdG35BrtYK3wsfchaY8eXw2V8tt+BHZYBdFwnZ4H/IGrPDeZwxRB6HhvKz6kuXCx3pUIaxiZvBVvs3TilegQnho5kZM8oJnd4UF/iyQ3+3lQ+VjKp3pdz4v2ZbQzg5thAhjsH0bE4mCX2ITTXTWDhcxXT5WpGp07ljJTpHBMwk27OgrWes3gxJZL62zH8NjeOP6sW0ufGIkpJi6j/EsfMvBjeLJvNxnJyxa1pdFOp+POvIOZ8D2RyTwiXbw1j5ZIEjqj+k9fbK/mxuZFfvZ+wOLyTRe1dTCnqYp+1k2Ni23g4+iGHlLQw83Q9d7WdYVtMBX2m51M0b6fSIYFHEsOo2+bFvWoZx1kfwnSkCuPlueifpoNL8Bm4x0XRYZ5cGHwjxYLNa0VjqU6c7c4QTfqdor0/S7gWSKL8gSQM3ZJQ90riglUSHv2SGP9LEpU2JpvPNn02dnbZ/2u/Ab8Fbpg=
+      </DataArray>
+      <DataArray type="Float32" Name="b" format="binary" RangeMin="0" RangeMax="0.49935144186">
+        AQAAAACAAAAABAAAmQMAAA==eJy1xf1TkwUAB/BnJgwGMid0IYKEvBg0x8brSJ6vkjTJQJBj41zsZnpFqDFuCDcHijAd0y2ZYMAwTIZoAg0wcHOwgSKItoITM0jOQ0AXkRcGZNrF6p/o88tHEbGEdeeXoPjvEdsCol2eQ+v/O07LniH28Bzk8l+wcPQpnCZmIJ6fAsNrEuKYR9jfPgHuzM+oYo3hG8kD2Jx+xIxgFF23RnAhYBhPRr4HN94G57t38GjLEBqcbkOmGoA4sh+G3hu4pevDMqcX8hc9CK/tRttxMwTs6yA9jKi50YVZayd2F3+LobwOREe349eENlyiGzDt3YqF35phpDajcOZrMCiXcWW6CSfcmhDwZyNagvQ449UAcdIFWLZ8hVdH6xFR9CXWmM+BZ6kDzV2Hzz1rUZJVgyP7q2G8fRam8SpQmVXwSayE3aDF1bsV6AuuwDvbT8Nq1eDstBoXeWp0552C26IKoQEq1KjL0WZRYkPyCdBLj+PAHwq4MxVYOVAKFqUUk7JjMEpLsNFUDDNZhGGuHM2DMtSsL0R1+yGor+UjN02KmesSXMzMxWL2Z0hcdRCl5TnIZH8K5o5sWF5+jKdl+yCJ2gt9xkcQ0PZgZ70I9l1Z6JZ+CH2oECf7M/F3kQCmRj6UORlgBKSj7580dPLTQAhToRan4Iw6GQZWMnS5HyCs8n2YLiUh4tl2dBTxcK5qGxa3JqDgMZDSsxl5olhUO0fB5QAHS37hkEwyoZ9g4piFhaxlDpRRMbi2m4TRygOVvQv1U0K03NwH/7lPoJKLMKd6F6Oufuh3zJPfac3k7M1aUh+sIvulZaQ+SEFKj5SThU0VpF1ZR4rjL5OOhC6ytmeQHNQ9JKeHFsjK+1Q4etfikIiNJFMyvijJg3eBFgJZO0ZPjmG52YEHi0t4HpUK4Q4eGREaGJ9xh7LZd8AWl+newC3ZWRwr478X88LXJ1otnI/M7zNH9DzRctKVe9jBHZvCNVNOrIfrfmCGHDz/dtmm/DDNq7jQAVePt/hXxkLslKbg5QJ5UMx9MlBroG8Iixx/M6Wu0b8ssHD97CzXj2qm+a6WDvsE2uvWbqNle+9lMN/4S+J4vSrL4tUSqfE08lPXVNi8GVHzk/R4UZPH4XvSVa1XOe6OxxQ3ZaPFtTXxlIv2ZRJ19TTDOUQzurKarXvNbaNohUnqT/kpJ45YSKcR1nEKcS+DIMLoBNG5giDkBEF4Ev+ffwHAW5Dg
+      </DataArray>
+      <DataArray type="Float32" Name="c" format="binary" RangeMin="-0.80165231228" RangeMax="1.3294143677">
+        AQAAAACAAAAABAAAAQMAAA==eJzlketvFGUYxRc2giRYU2hr1hmaIJqWBYs0JrxzOlOKAsViNaazTYi3gNZ+KJEdSAwERFBTgmG2l9BYLk1pCW13aJpItMs8M9MVcd8xpVCbAiUEvOymYowJbbiqpC/7f3i+nJwPJ+ckP1YyCnHzHFjWM/owlNpx2xwvtq0FC1Ezay+kW1Uk/PO2nHygpF77BOaFtyl6d8JmfzxS0jf2QLz/Ic10pm3dDsLY+jn6eAOlZv1ts6p58OsakZrcTqz8nu2P5YArXyGe3kW6OWOzwjxwYYLX7CPjWpAim0MwTrTAj39B4oMnibcUIrKsDSzdSOb4fJKSS2D1tMN4eJC4kkuitxj+9DHwXJP4kXySR1+E8Xon2P0m8s+FSCRKwfd3IzLWSuL2IpJ6VyE9cgr+5jbKfL+YrG4V+sU+sJx2sqwXSK9eA8k5DdF7lFhsKYkV6xFzBhALdpB0ezkF2EYI5xtk1E6yjr5EYvRNmA3fgrV2Zf+8TDP1OoyKBKQDJ4kVriKxbROkpwli9ymSPgOxq+9CnHbB3uslZUCjqLoFfGkSES1O0UMVFAjUw8j7AdYrFhlb12T7HyOzj8PaEs/ulZNcvxOs/ALkX7P5+qskFe1A6p/z0KuJUmNRsoYrwPb2IDV9nfzcw2QuLIJ/cACprkESyacoveEy/HUry+SiFoUVnEFNfkOZcaipLNDciuiN7YjtHoL1F1PMUNxhU386xpx/nUBprqv3v+FKD9e6saYCVzxx0Yn+0uVk+cPsX6eG6y6pjSNLtNk/fqmF5ya14XmXtdSdXVrgiulWipNed+mIF5bIe6e2xUtEdO94MOQ92zzp8pw+V/p0myvfKnGN+3muPHHJkVdUOqzkJ5u/pcKf+LrMrHtend6xX30udEZt/y9P63/UrD3oYOXzFxSsrghbq0/cnJMsUKqTk+Gfh64s1oZ4R9zjPc94RtUBNz015ej5tU7gN4/4yuIsz8M2N4L27+yjs1HZT2RYScLM7ByMRNoGo3Lld4H/sR4DGBaA2w==
+      </DataArray>
+      <DataArray type="Float32" Name="d" format="binary" RangeMin="0" RangeMax="2.7471263409">
+        AQAAAACAAAAABAAAHAMAAA==eJzdiP1PFAQAQM9jyq41FeROOVMrgbUKz1LCE+/dSctmGfEhTW0Ngq0uWbfZwmpdgkMLczTFHzQEbTg+cgEi0qyDZTvIhDtOjoMD7rjjPrkvLhEYaGnxd/S2t7c9x84oMWlRHEtt3RilfjFC23yE97dNsydzmmOpEb6VR+itiFB+PoL2yzDWyjAN1jDl4TC3ekN4zSEKksPodoRJEYUwiUPoS0JUHAshfy3IwZwg168GaekK8vCLAB+eDLDeHSBvNkBu0xRz7VO44gK88mwAsdGPY8RPRD7Fnr1TpIZ9/D3rY+UhPzlqP8XLfEhES++Ij7gyH8dXeVkv8WI77uVylReN2MM1qQfRKQ/F5zz8Hu+mRuJG+42bgjNuimNdNIlcmLUuhCdcWO87KZ91Mqme5C3NJMuHHUSHHBS+6eRelpPGlgnqr04ws9nB0WQHMq0d8Wd21t63UzpjJ0dlI15uo6HThv66Df+DMfLujbFNM06Pehxp8ygLF5eUjvE4fowf37AykGGlQWfFd83KwuQw75mGeT57hJHMERZLLLx6wEL9uIWj/RbSomZSR82I3h3ixOtD6AsGCakGydINUnphkIIaE799YAKTifHvTZytMnL7kBHNqJGDBiP7hQbOvGSgaIsRb5uR1o8N5CcYKTwwQKR7gMY/DXgSDRzO76cr5g5zUT3NT93i584uHlluUmfv4EFfO3UT7axI72A0rZMdv+qw7fuD6lYLsjt+zl4WKL96tEqpHkxUdiWtVmZv8fJvbh0Vu3L5a7eEhNJ5RX6lSxHzg1NRVO9X/JK9oAgLY+luXYOs+GmkGVv5Z2cm5uR8HsarqdSVsf10FeobtWgutVByupd0yTSNZSnKSxuvKMN3ZSr9dzXK/oR+xeGmugzPhjx5T+2K9L69zdtvfPL2y+/sfiw79+LFVGPXrheybZ7nhJtPpdw8n5RUPdPzTHD+o0211U9s6Gu7IrXdVq3rOOISa0sr1oi86+L2Z7Wv7N6678m1J0OiueyvY38qSVy+KGoVFn5aJLj7eYxAtUkgWL1sScH/h/8A21aW5g==
+      </DataArray>
+      <DataArray type="Float32" Name="e" format="binary" RangeMin="0" RangeMax="0.46382698417">
+        AQAAAACAAAAABAAAzQIAAA==eJzlhwtPDAAAgGMzzdpM4jzmbSWa865L942xUGxq3jbPymajFDbFIo+mpJZXS4cNa0ImosWa7iqlzrnrrrvq6t7vOz28nUn/w7d9+/atzvDxJtPH6uG27vZRu2z4x/nY0+9la4uX7BIvp1O9rIrzIp7p5Y3XQ1W9h/ZSDyGpHm6IPFiCPBRb3US8dlOd7WZ7gptLYW4O/3TRV+dCddVF2kEXV5a4+PvdSUijk/ElTnYnO6kMc+L84iCq0YGkyEHTZgeTpjp47LYz+6Wdiel2MqLtiAPtvFLYOJxvQ5pg48U0G3MtVgrKrOj2WXHMt7Lms4WtDy3kHLIgEVpQ95vJeThsspnSBWYkbhOaMhPXd5komm5ibbeRr3lG9sQaiQg0clFq4G6qgfJ5BlY6ewm718vtuF7mj+glua6HDxk9nJraQ5pCT2SeHn+MnnZTN7OudZMU380JfxdJki764rvIH9FFY2Un9zd1EvtLx5QnOvZu0yEY1FJTqqUiTot5oINdeR2YhB1o9BqMZzUMTtAQWqNGuV/N+pFq0q6182hxOzFaFdEZKvKGlHwrUeITKbmk/MTQzk909ivwFyl4Fq4gv/oj8YkfOflbzqIyOemL5MhVbdzJbGNscBuhV1s5NrqVv+kfiK1tYY2mmQHre1Z5mjCYG6nWNVA7soG7x2VULJWRsFFGjlXG2u8N9Cc1YQxuRjrYgr++lUiBnKojcjTCNrIONDNke0d5YjUbtpXzO7CUHbZCep5fJnJCLjNicxGev4xfVMCMoGKqnt5inEXC/gsPuHfuMc/rqsieUsu8zHoKVM1M/qNA+K6DM1Y9PyLMPBllpzDYQVaAiaD3MgSCJI5mqcWzDIjHZlfEhA8IYtbNyV0p9fVFp9zcEi0e81Y0fVSoqHJdcZT2fkBUVsiByMSaphWJNQtXFEpvLE9JsS8rlJ5YGvCf8w+3CIui
+      </DataArray>
+    </PointData>
+    <CellData>
+    </CellData>
+  </Piece>
+  </ImageData>
+</VTKFile>

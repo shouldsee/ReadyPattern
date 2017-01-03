@@ -1,0 +1,157 @@
+<?xml version="1.0"?>
+<VTKFile type="ImageData" version="0.1" byte_order="LittleEndian" compressor="vtkZLibDataCompressor">
+  <RD format_version="4">
+    <description>
+      A map of the parameters of the Gray-Scott system. Here &apos;k&apos; increases from left to 
+      right and &apos;F&apos; increases from bottom to top. For more detail, see:
+      &lt;a href=&quot;http://mrob.com/pub/comp/xmorphia/index.html&quot;&gt;http://mrob.com/pub/comp/xmorphia/index.html&lt;/a&gt;
+      
+      The parameters k1, k2, F1 and F2 define the current range of the map. Change them to explore.
+      
+    </description>
+    <rule name="Gray-Scott" type="formula" wrap="0" neighborhood_type="vertex" neighborhood_range="1" neighborhood_weight="laplacian">
+      <param name="timestep">
+        0.2
+      </param>
+      <param name="diff">
+        0.07
+      </param>
+      <param name="k1">
+        0.2025
+      </param>
+      <param name="k2">
+        0.207
+      </param>
+      <param name="F1">
+        -1
+      </param>
+      <param name="F2">
+        4
+      </param>
+      <param name="vis">
+        16
+      </param>
+      <param name="asp">
+        20
+      </param>
+      <param name="dx">
+        0.15
+      </param>
+      <param name="F0">
+        0.08
+      </param>
+      <formula number_of_chemicals="5">
+        float4 hpos = index_x / (float)X; // [0,1]
+        //float4 vpos = index_y / (float)Y; // [0,1]
+        //float4 hpos=0.7f;
+        float4 vpos=0.95f;
+        
+        float4 k = k1 + (k2-k1)*hpos;
+        float4 F = F1 + (F2-F1)*vpos;
+        delta_a = (2.0f * diff * laplacian_a/dx/dx - F*a*b*b + F0*(1.0f-a))*dx;
+        delta_b = (diff * laplacian_b/dx/dx + F*a*b*b - (F0+k)*b)*dx;
+        c=(2.0f * diff * laplacian_a/dx/dx)*vis;
+        d=F*a*b*b*vis;
+        e=F0*(1.0f-a)*vis;
+        
+      </formula>
+    </rule>
+    <initial_pattern_generator apply_when_loading="false">
+      <overlay chemical="a">
+        <overwrite>
+        </overwrite>
+        <constant value="1">
+        </constant>
+        <everywhere>
+        </everywhere>
+      </overlay>
+      <overlay chemical="b">
+        <overwrite>
+        </overwrite>
+        <white_noise low="0" high="1">
+        </white_noise>
+        <rectangle>
+          <point3D x="0.2" y="0.2" z="0.6">
+          </point3D>
+          <point3D x="0.4" y="0.5" z="0.8">
+          </point3D>
+        </rectangle>
+      </overlay>
+    </initial_pattern_generator>
+    <render_settings>
+      <surface_color r="1" g="1" b="1">
+      </surface_color>
+      <color_low r="0" g="0" b="1">
+      </color_low>
+      <color_high r="1" g="0" b="0">
+      </color_high>
+      <show_color_scale value="true">
+      </show_color_scale>
+      <show_multiple_chemicals value="true">
+      </show_multiple_chemicals>
+      <active_chemical value="b">
+      </active_chemical>
+      <low value="-1">
+      </low>
+      <high value="1">
+      </high>
+      <vertical_scale_1D value="30">
+      </vertical_scale_1D>
+      <vertical_scale_2D value="15">
+      </vertical_scale_2D>
+      <contour_level value="0.25">
+      </contour_level>
+      <use_wireframe value="false">
+      </use_wireframe>
+      <show_cell_edges value="false">
+      </show_cell_edges>
+      <show_bounding_box value="true">
+      </show_bounding_box>
+      <slice_3D value="true">
+      </slice_3D>
+      <slice_3D_axis value="z">
+      </slice_3D_axis>
+      <slice_3D_position value="0.5">
+      </slice_3D_position>
+      <show_displacement_mapped_surface value="false">
+      </show_displacement_mapped_surface>
+      <color_displacement_mapped_surface value="true">
+      </color_displacement_mapped_surface>
+      <use_image_interpolation value="true">
+      </use_image_interpolation>
+      <timesteps_per_render value="384">
+      </timesteps_per_render>
+      <show_phase_plot value="false">
+      </show_phase_plot>
+      <phase_plot_x_axis value="a">
+      </phase_plot_x_axis>
+      <phase_plot_y_axis value="b">
+      </phase_plot_y_axis>
+      <phase_plot_z_axis value="c">
+      </phase_plot_z_axis>
+    </render_settings>
+  </RD>
+  <ImageData WholeExtent="0 15 0 15 0 15" Origin="0 0 0" Spacing="1 1 1">
+  <Piece Extent="0 15 0 15 0 15">
+    <PointData>
+      <DataArray type="Float32" Name="a" format="binary" RangeMin="0.99995160103" RangeMax="0.99995160103">
+        AQAAAACAAAAAQAAALgAAAA==eJztwzENAAAIAzBpSMPk5OxABk+bNN2Jqqqqqqqqqqqqqqqqqqqq+voAOr3iWQ==
+      </DataArray>
+      <DataArray type="Float32" Name="b" format="binary" RangeMin="7.7029070351e-27" RangeMax="7.8370642336e-27">
+        AQAAAACAAAAAQAAAjgAAAA==eJzty6ENwkAABdAENGC+uN6FFcAzBbaSFXBYRsBXwQgo0klYoALHBJAwAvapp960bbnuWqav91XL4lmzH2rOfc1tWfMYu8yOXU6bLut3yWssmQ8lh8vPyfd93/d93/d93/d93/d93/d93/d93/d93/d93/d93/d93/d93/d93/d93/d93/f9v/8HMuJ/AA==
+      </DataArray>
+      <DataArray type="Float32" Name="c" format="binary" RangeMin="-4.7471781727e-05" RangeMax="-4.7471781727e-05">
+        AQAAAACAAAAAQAAALgAAAA==eJztwzENAAAIAzAj+MHO5E0eMnjapJltVFVVVVVVVVVVVVVVVVVV1dcHzO6xaQ==
+      </DataArray>
+      <DataArray type="Float32" Name="d" format="binary" RangeMin="0" RangeMax="0">
+        AQAAAACAAAAAQAAAJwAAAA==eJztwTEBAAAAwqD1T20MH6AAAAAAAAAAAAAAAAAAAACAtwFAAAAB
+      </DataArray>
+      <DataArray type="Float32" Name="e" format="binary" RangeMin="6.1950682721e-05" RangeMax="6.1950682721e-05">
+        AQAAAACAAAAAQAAALgAAAA==eJztwzENAAAIAzBb2OOY2plABk+bNN2Jqqqqqqqqqqqqqqqqqqqq+voA42SR/w==
+      </DataArray>
+    </PointData>
+    <CellData>
+    </CellData>
+  </Piece>
+  </ImageData>
+</VTKFile>
