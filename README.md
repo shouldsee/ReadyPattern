@@ -14,3 +14,5 @@ Also see Robert Munafo&apos;s U-skater. http://mrob.com/pub/comp/xmorphia/uskate
       
 * OnsetOfInstability(GS):
 	Close inspection at the parameter space where standing wave solutions becoming unstable. 1D,2D,3D scenarios are explored near the onset of instability, where a perturbation grows insteads of decaying away.
+	
+Movies can be found at http://www.conwaylife.com/forums/viewtopic.php?f=11&t=2444&p=36964&hilit=rvCA#p38509. 
