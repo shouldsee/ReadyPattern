@@ -1,10 +1,10 @@
 #Ready Pattern
 Collection of PDE simulators that runs on READY https://github.com/GollyGang/ready.
 
-* Modulus CML
+* Modulus CML:
 	Non-traditional CA with state space extended to real number.
 	
-* Annilatable 2D replicator (GS)
+* Annilatable 2D replicator (GS):
 	Different from previous GS replicator, this one follows a seesaw growth fashion.
 * Uskate reminiscent(GS):
 A modification of mufano's glider-viable Gary-Scott system.
